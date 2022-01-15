@@ -1,3 +1,4 @@
+from datetime import datetime
 import time
 import board
 import adafruit_dht
@@ -16,9 +17,10 @@ while True:
         temperature_c = dhtDevice.temperature
         temperature_f = temperature_c * (9 / 5) + 32
         humidity = dhtDevice.humidity
+        timestamp = datetime.now()
         print(
-            "Temp: {:.1f} F / {:.1f} C    Humidity: {}% ".format(
-                temperature_f, temperature_c, humidity
+            "Temp: {:.1f} F / {:.1f} C    Humidity: {}%    Time: {}".format(
+                temperature_f, temperature_c, humidity, timestamp
             )
         )
  

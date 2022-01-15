@@ -2,6 +2,10 @@ import os
 import glob
 import time
 from datetime import datetime
+import csv
+
+file = open("ds18B20.csv", "w", newline="")
+csv = csv.writer(file)
  
 os.system('modprobe w1-gpio')
 os.system('modprobe w1-therm')
@@ -29,7 +33,21 @@ def read_temp():
         timestamp = datetime.now()
         print( "Temp C: {}    Temp F: {}    time: {}".format(temp_c, temp_f, timestamp))
         return temp_c, temp_f, timestamp
-	
+
+csv.writerow(["temp_c", "temp_f", "timestamp"])
 while True:
-	read_temp()
-	time.sleep(1)
+
+    try:
+        # Print the values to the serial port
+        temp_c, temp_f, timestamp = read_temp()
+        csv.writerow([temp_c, temp_f, timestamp])
+ 
+    except RuntimeError as error:
+        # Errors happen fairly often, DHT's are hard to read, just keep going
+        print(error.args[0])
+        time.sleep(2.0)
+        continue
+    except Exception as error:
+        raise error
+
+    time.sleep(2.0)    

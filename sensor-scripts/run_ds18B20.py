@@ -31,7 +31,7 @@ def read_temp():
         temp_c = float(temp_string) / 1000.0
         temp_f = temp_c * 9.0 / 5.0 + 32.0
         timestamp = datetime.now()
-        print( "Temp C: {}    Temp F: {}    time: {}".format(temp_c, temp_f, timestamp))
+        print( "Temp C: {}    Temp F: {}    Time: {}".format(temp_c, temp_f, timestamp))
         return temp_c, temp_f, timestamp
 
 csv.writerow(["temp_c", "temp_f", "timestamp"])
@@ -41,6 +41,14 @@ while True:
         # Print the values to the serial port
         temp_c, temp_f, timestamp = read_temp()
         csv.writerow([temp_c, temp_f, timestamp])
+        if (temp_f < 68.5):
+            print('Light blinking RGB')
+            import test_controller as controller
+            controller.cycleColors()
+            controller.cycleColors()
+            controller.cycleColors()
+            controller.cycleColors()
+            controller.cleanUp()
  
     except RuntimeError as error:
         # Errors happen fairly often, DHT's are hard to read, just keep going
@@ -50,4 +58,4 @@ while True:
     except Exception as error:
         raise error
 
-    time.sleep(2.0)    
+    time.sleep(2.0)

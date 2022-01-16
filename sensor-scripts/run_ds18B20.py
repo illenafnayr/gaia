@@ -4,7 +4,7 @@ import time
 from datetime import datetime
 import csv
 
-file = open("ds18B20.csv", "w", newline="")
+file = open("../ds18B20.csv", "w", newline="")
 csv = csv.writer(file)
  
 os.system('modprobe w1-gpio')

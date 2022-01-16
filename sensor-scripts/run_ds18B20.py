@@ -3,6 +3,7 @@ import glob
 import time
 from datetime import datetime
 import csv
+import keyboard
 
 file = open("../ds18B20.csv", "w", newline="")
 csv = csv.writer(file)
@@ -35,20 +36,33 @@ def read_temp():
         return temp_c, temp_f, timestamp
 
 csv.writerow(["temp_c", "temp_f", "timestamp"])
-while True:
+
+run = True
+while run:
+    import test_controller as controller
+    import test2_controller as controller2
 
     try:
         # Print the values to the serial port
         temp_c, temp_f, timestamp = read_temp()
         csv.writerow([temp_c, temp_f, timestamp])
-        if (temp_f < 68.5):
+        if (temp_c < 21):
             print('Light blinking RGB')
-            import test_controller as controller
-            controller.cycleColors()
-            controller.cycleColors()
-            controller.cycleColors()
-            controller.cycleColors()
+            print("red light")
             controller.cleanUp()
+            controller2.pinOn(21)
+            controller.cycleColors()
+            controller.cycleColors()
+            controller.cycleColors()
+            controller.cycleColors()
+
+        if (temp_c >= 21):
+            print("green light")
+            controller2.cleanUp()
+            controller2.pinOn(23)
+
+        
+    
  
     except RuntimeError as error:
         # Errors happen fairly often, DHT's are hard to read, just keep going

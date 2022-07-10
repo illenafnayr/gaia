@@ -8,6 +8,11 @@ import test2_controller as controller2
 
 #Change following in /boot/config.txt and reboot to hange GPIO pin.
 # dtoverlay=w1-gpio,gpiopin=x
+import RPi.GPIO as GPIO
+
+GPIO_PIN_NUMBER=17
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(GPIO_PIN_NUMBER, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 file = open("../ds18B20.csv", "w", newline="")
 csv = csv.writer(file)

@@ -3,7 +3,11 @@ import glob
 import time
 from datetime import datetime
 import csv
-import keyboard
+import test_controller as controller
+import test2_controller as controller2
+
+#Change following in /boot/config.txt and reboot to hange GPIO pin.
+# dtoverlay=w1-gpio,gpiopin=x
 
 file = open("../ds18B20.csv", "w", newline="")
 csv = csv.writer(file)
@@ -39,16 +43,12 @@ csv.writerow(["temp_c", "temp_f", "timestamp"])
 
 run = True
 while run:
-    import test_controller as controller
-    import test2_controller as controller2
 
     try:
         # Print the values to the serial port
         temp_c, temp_f, timestamp = read_temp()
         csv.writerow([temp_c, temp_f, timestamp])
         if (temp_c < 21):
-            print('Light blinking RGB')
-            print("red light")
             controller.cleanUp()
             controller2.pinOn(21)
             controller.cycleColors()

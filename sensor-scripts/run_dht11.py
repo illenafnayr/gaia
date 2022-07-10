@@ -6,7 +6,7 @@ import csv
 
 file = open("dht11.csv", "w", newline="")
 csv = csv.writer(file)
-dhtDevice = adafruit_dht.DHT11(board.D3, use_pulseio=False)
+dhtDevice = adafruit_dht.DHT11(board.D17, use_pulseio=False)
 
 def dht11():
         temp_c = dhtDevice.temperature

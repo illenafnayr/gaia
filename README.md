@@ -1,6 +1,8 @@
 # Gaia
 An intelligent environmental control system
 
+##
+
 ## Sensors
 •	DS18B20 Temperature Sensor (°C).  
 •	MIX8410 (O2 %).  
@@ -13,15 +15,27 @@ An intelligent environmental control system
 •	M-LVTD Linear variable displacement transducer – Stem width - ?   
 
 ## Data Points: 
+###Inputs
 •	CO2.  
+•	O2.  
+•	Temperature.  
 •	Humidity.  
-•	Radiation.  
-•	Outside Temperature.  
-•	Inside Temperature.  
-•	Yield.  
+•	H20 pH.  
+•	Light Intensity.  
+•	Light Frequency.  
+
+###Outputs
+<!-- •	Radiation.   -->
+•	% Yield.  
+• Energy (kWh).  
+• Cost $.  
 
 ## Research:
 •	Using Deep Learning to Predict Plant Growth and Yield in Greenhouse Environments   
+
+## Equipment
+•  3ft x 3ft x 59in grow tent
+•  150Watt Full Spectrum L.E.D light
 
 
 ## Market Research:

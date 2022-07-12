@@ -3,6 +3,11 @@ import time
 import board
 import adafruit_dht
 import csv
+import RPi.GPIO as GPIO
+
+GPIO_PIN_NUMBER=17
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(GPIO_PIN_NUMBER, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 file = open("dht11.csv", "w", newline="")
 csv = csv.writer(file)

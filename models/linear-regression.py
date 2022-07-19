@@ -45,3 +45,11 @@ print("sumOfY2: ", sumOfY2);
 print("sumOfXY: ", sumOfXY);
 print("m: ", m);
 print("b: ", b);
+
+input = input('Predict Y given X');
+
+def linearRegression(X):
+    Y = ((m * X) + b);
+    print("y equals: ", Y);
+
+linearRegression(int(input));

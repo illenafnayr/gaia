@@ -39,7 +39,7 @@ An intelligent environmental control system
 
 
 ## Market Research:
-  Competition:
+  - Competition
     •	https://aigrowlight.com/about-us/.  
-    •	Existing Patent.  
-![image](https://user-images.githubusercontent.com/45886361/151272973-74ecb4a9-f9fa-42de-85c3-1f1a4ef1ff91.png)
+    •	Existing Patent.
+    • https://user-images.githubusercontent.com/45886361/151272973-74ecb4a9-f9fa-42de-85c3-1f1a4ef1ff91.png

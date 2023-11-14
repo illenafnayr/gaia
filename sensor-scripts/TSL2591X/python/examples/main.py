@@ -36,7 +36,7 @@ try:
             print('Timestamp: %s, Lux: %d, Infrared light: %d, Visible light: %d, Full spectrum (IR + visible) light: %d' % tuple(row))
             csv_writer.writerow(row)
 
-            time.sleep(1)
+            time.sleep(120)
 
 except KeyboardInterrupt:
     logging.info("ctrl + c:")

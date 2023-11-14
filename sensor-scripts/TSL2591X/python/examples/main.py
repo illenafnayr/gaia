@@ -1,32 +1,38 @@
 import time
 import sys
 import os
+import csv
+import logging
+from waveshare_TSL2591 import TSL2591
 
 libdir = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), 'lib')
 if os.path.exists(libdir):
     sys.path.append(libdir)
 
-import logging
-from waveshare_TSL2591 import TSL2591
-
 logging.basicConfig(level=logging.INFO)
 
 sensor = TSL2591.TSL2591()
-# sensor.SET_InterruptThreshold(0xff00, 0x0010)
+
+csv_file_path = 'sensor_data.csv'
+
 try:
-    while True:
-        lux = sensor.Lux
-        print('Lux: %d'%lux)
-        sensor.TSL2591_SET_LuxInterrupt(50, 200)
-        infrared = sensor.Read_Infrared
-        print('Infrared light: %d'%infrared)
-        visible = sensor.Read_Visible
-        print('Visible light: %d'%visible)
-        full_spectrum = sensor.Read_FullSpectrum
-        print('Full spectrum (IR + visible) light: %d\r\n'%full_spectrum)
-    
-except KeyboardInterrupt:    
+    with open(csv_file_path, mode='w', newline='') as csvfile:
+        csv_writer = csv.writer(csvfile)
+        csv_writer.writerow(['Lux', 'Infrared', 'Visible', 'Full Spectrum'])
+
+        while True:
+            lux = sensor.Lux
+            infrared = sensor.Read_Infrared
+            visible = sensor.Read_Visible
+            full_spectrum = sensor.Read_FullSpectrum
+            row = [lux, infrared, visible, full_spectrum]
+
+            print('Lux: %d, Infrared light: %d, Visible light: %d, Full spectrum (IR + visible) light: %d' % tuple(row))
+            csv_writer.writerow(row)
+
+            time.sleep(1)
+
+except KeyboardInterrupt:
     logging.info("ctrl + c:")
     sensor.Disable()
     exit()
-

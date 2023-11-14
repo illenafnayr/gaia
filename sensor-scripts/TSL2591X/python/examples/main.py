@@ -20,7 +20,7 @@ csv_file_path = 'sensor_data.csv'
 try:
     with open(csv_file_path, mode='w', newline='') as csvfile:
         csv_writer = csv.writer(csvfile)
-        csv_writer.writerow(['Timestamp', 'Lux', 'Infrared', 'Visible', 'Full Spectrum'])
+        csv_writer.writerow(['Timestamp', 'Lux', 'Infrared', 'Visible', 'FullSpectrum'])
 
         while True:
             lux = sensor.Lux

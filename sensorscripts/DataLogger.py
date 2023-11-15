@@ -15,17 +15,16 @@ class DataLogger:
             csv_writer.writerow(self.header)
 
     def log_sensor_data(self):
-        while True:
-            try:
-                with open(self.csv_file_path, mode='a', newline='') as csvfile:
-                    csv_writer = csv.writer(csvfile)
-                    sensor_instance = self.sensorLogger()
-                    # timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-                    row = sensor_instance.writeRow()
-                    csv_writer.writerow(row)
+        try:
+            with open(self.csv_file_path, mode='a', newline='') as csvfile:
+                csv_writer = csv.writer(csvfile)
+                sensor_instance = self.sensorLogger()
+                # timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                row = sensor_instance.writeRow()
+                csv_writer.writerow(row)
 
-            except KeyboardInterrupt:
-                print("ctrl + c:")
+        except KeyboardInterrupt:
+            print("ctrl + c:")
 
 
 custom_header = ['Timestamp', 'Lux', 'Infrared', 'Visible', 'FullSpectrum']

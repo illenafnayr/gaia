@@ -31,5 +31,5 @@ class DataLogger:
 custom_header = ['Timestamp', 'Lux', 'Infrared', 'Visible', 'FullSpectrum']
 logger = DataLogger(LightSensorDataLogger, csv_file_path='light-sensor-data.csv', header=custom_header)
 while True:
-    logger.log_sensor_data(3)
+    logger.log_sensor_data()
     time.sleep(3)

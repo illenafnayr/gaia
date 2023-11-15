@@ -16,18 +16,15 @@ class DataLogger:
         try:
             with open(self.csv_file_path, mode='a', newline='') as csvfile:
                 csv_writer = csv.writer(csvfile)
-
+                # Create an instance of LightSensorDataLogger
+                sensor_instance = self.sensorLogger()
                 # Get the current timestamp
                 # timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-
                 # Create a row of sensor data
-                row = self.sensorLogger().writeRow()
+                row = sensor_instance.writeRow()
 
                 # Log the data to the CSV file
                 csv_writer.writerow(row)
-
-                print('Timestamp: %s, Lux: %d, Infrared light: %d, Visible light: %d, Full spectrum (IR + visible) light: %d' % tuple(row))
-
         except KeyboardInterrupt:
             print("ctrl + c:")
             # Handle any necessary cleanup or logging when KeyboardInterrupt occurs
@@ -45,4 +42,5 @@ class DataLogger:
 custom_header = ['Timestamp', 'Lux', 'Infrared', 'Visible', 'FullSpectrum']
 
 # Create an instance of the SensorDataLogger with dynamic parameters
-logger = DataLogger(LightSensorDataLogger, csv_file_path='ligh-sensor-data.csv', header=custom_header)
+logger = DataLogger(LightSensorDataLogger, csv_file_path='light-sensor-data.csv', header=custom_header)
+logger.log_sensor_data()

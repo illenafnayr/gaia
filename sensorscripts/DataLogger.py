@@ -25,13 +25,3 @@ class DataLogger:
 
         except KeyboardInterrupt:
             print("ctrl + c:")
-
-
-custom_header = ['Timestamp', 'Lux', 'Infrared', 'Visible', 'FullSpectrum']
-logger = DataLogger(LightSensorDataLogger, csv_file_path='light-sensor-data.csv', header=custom_header)
-logger.log_sensor_data()
-time.sleep(3)
-logger.log_sensor_data()
-time.sleep(3)
-logger.log_sensor_data()
-time.sleep(3)

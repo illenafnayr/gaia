@@ -1,4 +1,6 @@
 import time
+import sys
+print(sys.path)
 from sensorscripts.DataLogger import DataLogger
 from sensorscripts.TSL2591X.TSLX2591XDataLogger import LightSensorDataLogger
 

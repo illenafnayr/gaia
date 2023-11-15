@@ -1,4 +1,3 @@
-import time
 import csv
 
 from TSL2591X.TSLX2591XDataLogger import LightSensorDataLogger

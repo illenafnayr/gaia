@@ -1,8 +1,6 @@
 import time
-import sys
-print(sys.path)
-from sensorscripts.DataLogger import DataLogger
-from sensorscripts.TSL2591X.TSLX2591XDataLogger import LightSensorDataLogger
+from ..sensorscripts.DataLogger import DataLogger
+from ..sensorscripts.TSL2591X.TSLX2591XDataLogger import LightSensorDataLogger
 
 custom_header = ['Timestamp', 'Lux', 'Infrared', 'Visible', 'FullSpectrum']
 logger = DataLogger(LightSensorDataLogger, csv_file_path='light-sensor-data.csv', header=custom_header)

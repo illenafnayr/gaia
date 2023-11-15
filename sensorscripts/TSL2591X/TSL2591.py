@@ -1,14 +1,11 @@
 #!/usr/bin/python
 # -*- coding:utf-8 -*-
 
-import logging
 import sys
 import time
 import math
 import smbus
 import RPi.GPIO as GPIO
-
-INI_PIN             = 4
 
 ADDR                = (0x29)
 
@@ -32,10 +29,10 @@ MAX_AGAIN           = (0x30)#Max gain (9876x)
 #ATIME
 ATIME_100MS         = (0x00)#100 millis #MAX COUNT 36863 
 ATIME_200MS         = (0x01)#200 millis #MAX COUNT 65535 
-ATIME_300MS         = (0x02)#300 millis #MAX COUNT 65535 
-ATIME_400MS         = (0x03)#400 millis #MAX COUNT 65535 
-ATIME_500MS         = (0x04)#500 millis #MAX COUNT 65535 
-ATIME_600MS         = (0x05)#600 millis #MAX COUNT 65535 
+ATIME_300MS         = (0x02)#300 millis
+ATIME_400MS         = (0x03)#400 millis
+ATIME_500MS         = (0x04)#500 millis
+ATIME_600MS         = (0x05)#600 millis
 
 AILTL_REGISTER      = (0x04)
 AILTH_REGISTER      = (0x05)
@@ -87,7 +84,7 @@ class TSL2591:
         
         GPIO.setmode(GPIO.BCM)
         GPIO.setwarnings(False)
-        GPIO.setup(INI_PIN, GPIO.IN)
+        GPIO.setup(4, GPIO.IN)
         
         self.ID = self.Read_Byte(ID_REGISTER)
         if(self.ID != 0x50):
@@ -95,7 +92,7 @@ class TSL2591:
             sys.exit()
         
         self.Enable()
-        self.Set_Gain(MEDIUM_AGAIN)
+        self.Set_Gain(LOW_AGAIN)
         self.Set_IntegralTime(ATIME_100MS)
         self.Write_Byte(PERSIST_REGISTER, 0x01)
         self.Disable()
@@ -120,6 +117,12 @@ class TSL2591:
         self.Write_Byte(ENABLE_REGISTER, ENABLE_POWEROFF)
 
     def Get_Gain(self):
+        """
+        LOW_AGAIN           = (0X00)        (1x)
+        MEDIUM_AGAIN        = (0X10)        (25x)
+        HIGH_AGAIN          = (0X20)        (428x)
+        MAX_AGAIN           = (0x30)        (9876x)
+        """
         data = self.Read_Byte(CONTROL_REGISTER)
         return data & 0b00110000
 
@@ -136,6 +139,12 @@ class TSL2591:
             print("Gain Parameter Error")
 
     def Get_IntegralTime(self):
+        # ATIME_100MS         = (0x00)      100 millis   MAX COUNT 36863 
+        # ATIME_200MS         = (0x01)      200 millis   MAX COUNT 65535 
+        # ATIME_300MS         = (0x02)      300 millis   MAX COUNT 65535 
+        # ATIME_400MS         = (0x03)      400 millis   MAX COUNT 65535 
+        # ATIME_500MS         = (0x04)      500 millis   MAX COUNT 65535 
+        # ATIME_600MS         = (0x05)      600 millis   MAX COUNT 65535 
         control = self.Read_Byte(CONTROL_REGISTER)
         return control & 0b00000111
 
@@ -159,8 +168,8 @@ class TSL2591:
     def Read_FullSpectrum(self):
         """Read the full spectrum (IR + visible) light and return its value"""
         self.Enable()
-        # for i in range(0, self.IntegralTime+2):
-            # time.sleep(0.1)
+        for i in range(0, self.IntegralTime+2):
+            time.sleep(0.1)
         data = (self.Read_CHAN1()  << 16) | self.Read_CHAN0()
         self.Disable()
         return data
@@ -168,8 +177,8 @@ class TSL2591:
     def Read_Infrared(self):
         '''Read the infrared light and return its value as a 16-bit unsigned number'''
         self.Enable()
-        # for i in range(0, self.IntegralTime+2):
-            # time.sleep(0.1)
+        for i in range(0, self.IntegralTime+2):
+            time.sleep(0.1)
         data = self.Read_CHAN0()
         self.Disable()
         return data
@@ -177,8 +186,8 @@ class TSL2591:
     @property
     def Read_Visible(self):#Visible light
         self.Enable()
-        # for i in range(0, self.IntegralTime+2):
-            # time.sleep(0.1)
+        for i in range(0, self.IntegralTime+2):
+            time.sleep(0.1)
         Ch1 = self.Read_CHAN1()
         Ch0 = self.Read_CHAN0()
         self.Disable()
@@ -190,20 +199,20 @@ class TSL2591:
         self.Enable()
         for i in range(0, self.IntegralTime+2):
             time.sleep(0.1)
-        if(GPIO.input(INI_PIN) == GPIO.HIGH):
-            print ('INT 0')
+        if(GPIO.input(4) == GPIO.HIGH):
+            print 'INT 0'
         else:
-            print ('INT 1')
+            print 'INT 1'
         channel_0 = self.Read_CHAN0()
         channel_1 = self.Read_CHAN1()
         self.Disable()
 
         self.Enable()
-        self.Write_Byte(0xE7, 0x13)#Clear interrupt flag
+        self.Write_Byte(0xE7, 0x13)
         self.Disable()
 
         atime = 100.0 * self.IntegralTime + 100.0
-        
+       
         # Set the maximum sensor counts based on the integration time (atime) setting
         if self.IntegralTime == ATIME_100MS:
             max_counts = MAX_COUNT_100MS
@@ -269,7 +278,7 @@ class TSL2591:
         
         SET_HIGH =  (int)(Cpl * SET_HIGH)+ 2*channel_1-1
         SET_LOW = (int)(Cpl * SET_LOW)+ 2*channel_1+1
-        
+            
         self.Enable()
         self.Write_Byte(AILTL_REGISTER, SET_LOW & 0xFF)
         self.Write_Byte(AILTH_REGISTER, SET_LOW >> 8)

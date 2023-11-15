@@ -7,6 +7,7 @@ load_dotenv()
 
 secret_key_id = os.getenv('AWS_SECRET_ACCESS_KEY_ID')
 secret_key = os.getenv('AWS_SECRET_ACCESS_KEY')
+
 aws_access_key_id = secret_key_id
 aws_secret_access_key = secret_key
 aws_region = 'us-east-1'

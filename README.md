@@ -1,6 +1,8 @@
 # Gaia
 An intelligent environmental control system
 
+I want to create an intelligent enviromental system that optimizes settings for the growth cycle of a particular living subject, for example a plant. The system will take readings from enviromental factors such as light, humidity in the air, the ratio of CO2 and O2, temperature, etc.. at every defined interval over the time of a specific plants growth. Given this dataset, I want to write artificial intelligence model to predict optimize percent yield, and reduce the amount of energy (kWh) used.
+
 ##
 
 ## Sensors

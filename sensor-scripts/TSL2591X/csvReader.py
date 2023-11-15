@@ -1,9 +1,13 @@
 import pandas as pd
 import boto3
 from io import StringIO
+from dotenv import load_dotenv
+load_dotenv()
+from dotenv import dotenv_values
+config = dotenv_values(".env")
 
-aws_access_key_id = ''
-aws_secret_access_key = ''
+aws_access_key_id = AWS_SECRET_ACCESS_KEY_ID
+aws_secret_access_key = AWS_SECRET_ACCESS_KEY
 aws_region = 'us-east-1'
 s3_bucket_name = 'gaia-sensor-data'
 s3_object_key = 'gaia-sensor-data-updated.csv'

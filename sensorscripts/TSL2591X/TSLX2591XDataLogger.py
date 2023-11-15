@@ -1,12 +1,7 @@
-import sys
-import os
 from datetime import datetime  # Import the datetime module
-
-libdir = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), 'lib')
-if os.path.exists(libdir):
-    sys.path.append(libdir)
 import logging
-from waveshare_TSL2591 import TSL2591
+
+import TSL2591
 
 logging.basicConfig(level=logging.INFO)
 

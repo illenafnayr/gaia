@@ -1,6 +1,6 @@
 import csv
-
-from TSL2591X.TSLX2591XDataLogger import LightSensorDataLogger
+import sys
+import os
 
 class DataLogger:
     def __init__(self, sensorLogger, csv_file_path, header=['Timestamp', 'Lux', 'Infrared', 'Visible', 'FullSpectrum']):

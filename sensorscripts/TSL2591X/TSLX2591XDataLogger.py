@@ -1,7 +1,7 @@
 from datetime import datetime  # Import the datetime module
 import logging
 
-import TSL2591
+from TSL2591 import TSL2591
 
 logging.basicConfig(level=logging.INFO)
 

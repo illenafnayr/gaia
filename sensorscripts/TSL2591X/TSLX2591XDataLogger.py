@@ -16,7 +16,10 @@ class LightSensorDataLogger:
         full_spectrum = sensor.Read_FullSpectrum
 
         row = [lux, infrared, visible, full_spectrum]
-        print('Timestamp: %s, Lux: %d, Infrared light: %d, Visible light: %d, Full spectrum (IR + visible) light: %d' % tuple(row))
+        print('Lux: %d, Infrared light: %d, Visible light: %d, Full spectrum (IR + visible) light: %d' % tuple(row))
 
         sensor.Disable()
         return row
+
+    def getHeaders(self):
+        return self.headers

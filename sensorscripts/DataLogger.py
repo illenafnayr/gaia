@@ -55,6 +55,7 @@ class DataLogger:
 
                 # Adding a header for the timestamp column if not already present
                 if not hasattr(self, 'timestamp_logged'):
+                    print("sensor_instance.getHeaders(): ", sensor_instance.getHeaders())
                     header_row = ['Timestamp'] + sensor_instance.getHeaders()  # Assuming getHeader returns the existing header
                     csv_writer.writerow(header_row)
                     setattr(self, 'timestamp_logged', True)

@@ -36,8 +36,9 @@ class DataLogger:
             csv_reader = csv.reader(csvfile)
             existing_headers = next(csv_reader, None)
 
-            # Check if all headers in self.header are present in existing_headers
-            return all(header in existing_headers for header in self.header)
+            # Check if existing_headers is not None and if all headers in self.header are present
+            return existing_headers is not None and all(header in existing_headers for header in self.header)
+
 
     def log_sensor_data(self):
         try:

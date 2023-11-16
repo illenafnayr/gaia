@@ -200,9 +200,9 @@ class TSL2591:
         for i in range(0, self.IntegralTime+2):
             time.sleep(0.1)
         if(GPIO.input(4) == GPIO.HIGH):
-            print 'INT 0'
+            print ('INT 0')
         else:
-            print 'INT 1'
+            print ('INT 1')
         channel_0 = self.Read_CHAN0()
         channel_1 = self.Read_CHAN1()
         self.Disable()

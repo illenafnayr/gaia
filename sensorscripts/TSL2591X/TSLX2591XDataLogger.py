@@ -1,16 +1,15 @@
 from datetime import datetime  # Import the datetime module
 import logging
-
-from TSL2591 import TSL2591
+from sensorscripts.TSL2591X.TSL2591 import TSL2591
 
 logging.basicConfig(level=logging.INFO)
 
-sensor = TSL2591.TSL2591()
 
-csv_file_path = 'TSL2591X_sensor_data.csv'
 
+# csv_file_path = 'TSL2591X_sensor_data.csv'
 class LightSensorDataLogger:
     def writeRow(self):
+        sensor = TSL2591()
         lux = sensor.Lux
         infrared = sensor.Read_Infrared
         visible = sensor.Read_Visible

@@ -61,4 +61,4 @@ class DataLogger:
 
                 csv_writer.writerow(row)
         except Exception as e:
-            print(f"Error logging sensor data: {e}")
+            print("Error logging sensor data: {}".format(e))

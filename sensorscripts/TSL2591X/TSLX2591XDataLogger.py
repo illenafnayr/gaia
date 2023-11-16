@@ -5,7 +5,7 @@ from sensorscripts.TSL2591X.TSL2591 import TSL2591
 logging.basicConfig(level=logging.INFO)
 
 class LightSensorDataLogger:
-    def __init__(self, headers = ['Lux', 'Infrared', 'Visible', 'Full Spectrum']):
+    def __init__(self, headers=['Lux', 'Infrared', 'Visible', 'Full Spectrum']):
         self.headers = headers
 
     def writeRow(self):

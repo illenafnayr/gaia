@@ -18,7 +18,7 @@ def run_batch_job(interval_seconds, enabled_flag):
         get_sensor_readings(lightSensor)
         time.sleep(interval_seconds)
 def get_sensor_readings(SensorDataLogger):
-        logger = DataLogger(SensorDataLogger, csv_file_path='light-sensor-data.csv', SensorDataLogger.getHeaders())
+        logger = DataLogger(SensorDataLogger, csv_file_path='light-sensor-data.csv', header=SensorDataLogger.getHeaders())
         logger.log_sensor_data()
 
 if __name__ == "__main__":

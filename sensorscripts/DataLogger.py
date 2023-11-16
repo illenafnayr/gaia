@@ -13,7 +13,7 @@ class DataLogger:
         file_exists = os.path.isfile(self.csv_file_path)
 
         # If the file doesn't exist, or if it exists but doesn't contain the specified headers,
-        # write the headers and fill the columns with zeros until the current timestamp
+        # write the headers and fill the columns with zeros for the first row
         if not file_exists or not self.are_headers_present():
             self.initialize_csv_file()
 
@@ -22,18 +22,13 @@ class DataLogger:
             csv_writer = csv.writer(csvfile)
 
             # Write the headers if they don't exist
-            csv_writer.writerow(self.header)
+            if not self.are_headers_present():
+                csv_writer.writerow(self.header)
 
-            # Fill columns with zeros until the current timestamp
-            current_timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            # Fill the first row with zeros
             zero_row = [0] * len(self.header)
-            while True:
-                zero_row[0] = current_timestamp
-                csv_writer.writerow(zero_row)
-                current_timestamp = (datetime.strptime(current_timestamp, '%Y-%m-%d %H:%M:%S') +
-                                    timedelta(minutes=1)).strftime('%Y-%m-%d %H:%M:%S')
-                if current_timestamp > datetime.now().strftime('%Y-%m-%d %H:%M:%S'):
-                    break
+            zero_row[0] = "Timestamp"
+            csv_writer.writerow(zero_row)
 
     def are_headers_present(self):
         # Check if the CSV file contains all the specified headers

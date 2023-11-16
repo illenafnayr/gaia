@@ -1,6 +1,6 @@
 import csv
 import os
-from datetime import datetime
+from datetime import datetime, timedelta
 
 class DataLogger:
     def __init__(self, sensorLogger, csv_file_path, header):
@@ -14,24 +14,25 @@ class DataLogger:
         # If the file doesn't exist, or if it exists but doesn't contain the specified headers,
         # write the headers and fill the columns with zeros until the current timestamp
         if not file_exists or not self.are_headers_present():
-            with open(self.csv_file_path, mode='a', newline='') as csvfile:
-                csv_writer = csv.writer(csvfile)
+            self.initialize_csv_file()
 
-                # Write the headers if they don't exist
-                if not file_exists:
-                    csv_writer.writerow(self.header)
+    def initialize_csv_file(self):
+        with open(self.csv_file_path, mode='a', newline='') as csvfile:
+            csv_writer = csv.writer(csvfile)
 
-                # Fill columns with zeros until the current timestamp
-                if not file_exists:
-                    current_timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-                    zero_row = [0] * len(self.header)
-                    while True:
-                        zero_row[0] = current_timestamp
-                        csv_writer.writerow(zero_row)
-                        current_timestamp = (datetime.strptime(current_timestamp, '%Y-%m-%d %H:%M:%S') +
-                                            timedelta(minutes=1)).strftime('%Y-%m-%d %H:%M:%S')
-                        if current_timestamp > datetime.now().strftime('%Y-%m-%d %H:%M:%S'):
-                            break
+            # Write the headers if they don't exist
+            csv_writer.writerow(self.header)
+
+            # Fill columns with zeros until the current timestamp
+            current_timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            zero_row = [0] * len(self.header)
+            while True:
+                zero_row[0] = current_timestamp
+                csv_writer.writerow(zero_row)
+                current_timestamp = (datetime.strptime(current_timestamp, '%Y-%m-%d %H:%M:%S') +
+                                    timedelta(minutes=1)).strftime('%Y-%m-%d %H:%M:%S')
+                if current_timestamp > datetime.now().strftime('%Y-%m-%d %H:%M:%S'):
+                    break
 
     def are_headers_present(self):
         # Check if the CSV file contains all the specified headers
@@ -55,7 +56,6 @@ class DataLogger:
 
                 # Adding a header for the timestamp column if not already present
                 if not hasattr(self, 'timestamp_logged'):
-                    print("sensor_instance.getHeaders(): ", sensor_instance.getHeaders())
                     header_row = ['Timestamp'] + sensor_instance.getHeaders()  # Assuming getHeader returns the existing header
                     csv_writer.writerow(header_row)
                     setattr(self, 'timestamp_logged', True)

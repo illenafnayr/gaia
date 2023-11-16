@@ -11,16 +11,13 @@ from sensorscripts.DataLogger import DataLogger
 from sensorscripts.TSL2591X.TSLX2591XDataLogger import LightSensorDataLogger
 
 
-def my_batch_action():
-    # Replace this with the action you want to perform
-    custom_header = ['Timestamp', 'Lux', 'Infrared', 'Visible', 'FullSpectrum']
-    logger = DataLogger(LightSensorDataLogger, csv_file_path='light-sensor-data.csv', header=custom_header)
-    logger.log_sensor_data()
-
 def run_batch_job(interval_seconds, enabled_flag):
     while enabled_flag:
-        my_batch_action()
+        get_sensor_readings(LightSensorDataLogger)
         time.sleep(interval_seconds)
+def get_sensor_readings(SensorDataLogger):
+        logger = DataLogger(SensorDataLogger, csv_file_path='light-sensor-data.csv', SensorDataLogger.headers)
+        logger.log_sensor_data()
 
 if __name__ == "__main__":
     interval_seconds = 6  # Adjust this based on your desired interval

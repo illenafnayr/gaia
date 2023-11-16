@@ -33,3 +33,5 @@ def lightReading():
     s3.put_object(Body=result_csv_content, Bucket=s3_bucket_name, Key=s3_object_key)
 
     print(f"Update successful. Result saved to S3 bucket with key: {s3_object_key}")
+
+lightReading()

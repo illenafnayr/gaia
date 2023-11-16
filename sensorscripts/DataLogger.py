@@ -3,7 +3,7 @@ import os
 from datetime import datetime
 
 class DataLogger:
-    def __init__(self, sensorLogger, csv_file_path, header=['Timestamp', 'Lux', 'Infrared', 'Visible', 'FullSpectrum']):
+    def __init__(self, sensorLogger, csv_file_path, header=['Timestamp']):
         self.sensorLogger = sensorLogger
         self.csv_file_path = csv_file_path
         self.header = header
@@ -48,7 +48,17 @@ class DataLogger:
                 csv_writer = csv.writer(csvfile)
                 sensor_instance = self.sensorLogger()
                 row = sensor_instance.writeRow()
-                csv_writer.writerow(row)
 
-        except KeyboardInterrupt:
-            print("ctrl + c:")
+                # Inserting the current timestamp into the row
+                timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                row.insert(0, timestamp)  # Assuming you want to insert the timestamp at the beginning of the row
+
+                # Adding a header for the timestamp column if not already present
+                if not hasattr(self, 'timestamp_logged'):
+                    header_row = ['Timestamp'] + sensor_instance.getHeader()  # Assuming getHeader returns the existing header
+                    csv_writer.writerow(header_row)
+                    setattr(self, 'timestamp_logged', True)
+
+                csv_writer.writerow(row)
+        except Exception as e:
+            print(f"Error logging sensor data: {e}")

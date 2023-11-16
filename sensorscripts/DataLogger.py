@@ -3,7 +3,7 @@ import os
 from datetime import datetime
 
 class DataLogger:
-    def __init__(self, sensorLogger, csv_file_path, header=['Timestamp']):
+    def __init__(self, sensorLogger, csv_file_path, header):
         self.sensorLogger = sensorLogger
         self.csv_file_path = csv_file_path
         self.header = header

@@ -36,8 +36,8 @@ class DataLogger:
             csv_reader = csv.reader(csvfile)
             existing_headers = next(csv_reader, None)
 
-            # Check if existing_headers is not None and if all headers in self.header are present
-            return existing_headers is not None and all(header in existing_headers for header in self.header)
+            # Exclude the "Timestamp" column from the comparison
+            return existing_headers is not None and all(header in existing_headers[1:] for header in self.header[1:])
 
 
     def log_sensor_data(self):

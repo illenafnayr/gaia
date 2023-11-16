@@ -14,11 +14,12 @@ from sensorscripts.TSL2591X.TSLX2591XDataLogger import LightSensorDataLogger
 def run_batch_job(interval_seconds, enabled_flag):
     while enabled_flag:
 
-        lightSensor = LightSensorDataLogger()
+        lightSensor = LightSensorDataLogger
         get_sensor_readings(lightSensor)
         time.sleep(interval_seconds)
 def get_sensor_readings(SensorDataLogger):
-        headers = SensorDataLogger.getHeaders()
+        sensor = SensorDataLogger()
+        headers = sensor.getHeaders()
         logger = DataLogger(SensorDataLogger, csv_file_path='light-sensor-data.csv', header=headers)
         logger.log_sensor_data()
 

@@ -37,7 +37,6 @@ class DataLogger:
         except FileNotFoundError:
             pass
         return data
-
     def add_data(self):
         new_data = self.sensor_logger.writeRow()
 
@@ -50,28 +49,47 @@ class DataLogger:
         # Create a new row dictionary
         new_row = {'timestamp': timestamp, **dict(zip(self.headers, new_data_strings))}
         print(new_row)
+
         # Append the new row to the data dictionary
         self.data[timestamp] = new_row
 
+        # Save to CSV without using with block
         self.save_to_csv()
 
     def save_to_csv(self):
         with open(self.csv_file, 'w', newline='') as file:
             writer = csv.writer(file)
-            
+
             # Write header row
             header_row = ['Timestamp'] + self.headers
             writer.writerow(header_row)
-            
-        # Write data rows
-        for timestamp, row in self.data.items():
-            if isinstance(row, dict):
-                # Extract values including a default value for missing keys
-                values = [row.get(key, '') for key in self.headers]
-                # Write the row with the timestamp
-                writer.writerow([timestamp] + values)
-            else:
-                print(f"Warning: Unexpected data format for timestamp {timestamp}: {row}")
+
+            # Write data rows
+            for timestamp, row in self.data.items():
+                if isinstance(row, dict):
+                    # Extract values including a default value for missing keys
+                    values = [row.get(key, '') for key in self.headers]
+                    # Write the row with the timestamp
+                    writer.writerow([timestamp] + values)
+                else:
+                    print(f"Warning: Unexpected data format for timestamp {timestamp}: {row}")
+
+            with open(self.csv_file, 'w', newline='') as file:
+                writer = csv.writer(file)
+                
+                # Write header row
+                header_row = ['Timestamp'] + self.headers
+                writer.writerow(header_row)
+                
+            # Write data rows
+            for timestamp, row in self.data.items():
+                if isinstance(row, dict):
+                    # Extract values including a default value for missing keys
+                    values = [row.get(key, '') for key in self.headers]
+                    # Write the row with the timestamp
+                    writer.writerow([timestamp] + values)
+                else:
+                    print(f"Warning: Unexpected data format for timestamp {timestamp}: {row}")
 
     def add_timestamp(self):
         current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')

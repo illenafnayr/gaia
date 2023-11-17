@@ -1,6 +1,7 @@
 import csv
 from collections import OrderedDict
 from datetime import datetime
+import logging
 
 class DataLogger:
     def __init__(self, sensor_logger, csv_file):

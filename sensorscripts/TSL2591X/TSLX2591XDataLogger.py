@@ -15,7 +15,7 @@ class LightSensorDataLogger:
         visible = sensor.Read_Visible
         full_spectrum = sensor.Read_FullSpectrum
 
-        row = {'lux': lux, 'infrared': infrared, 'visible': visible, 'full_spectrum': full_spectrum}
+        row = [lux, infrared, visible, full_spectrum]
         # print('Lux: %d, Infrared light: %d, Visible light: %d, Full spectrum (IR + visible) light: %d' % tuple(row))
 
         sensor.Disable()

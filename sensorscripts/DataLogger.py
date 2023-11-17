@@ -7,7 +7,11 @@ class DataLogger:
         self.sensorLogger = SensorLogger()
         self.csv_file = csv_file
         self.headers = self.get_headers()
-        self.data = self.read_csv()
+        self.data = {}  # Initialize as an empty dictionary
+        if not self.headers:
+            self.headers = []
+        else:
+            self.data = self.read_csv()
 
     def get_headers(self):
         try:

@@ -48,11 +48,10 @@ class DataLogger:
         new_data_strings = [str(item) for item in new_data]
 
         # Create a new row dictionary
-        new_row = { **dict(zip(self.headers, new_data_strings))}
+        new_row = {'timestamp': timestamp, **dict(zip(self.headers, new_data_strings))}
 
         # Append the new row to the data dictionary
         self.data[timestamp] = new_row
-        print(self.data)
         self.save_to_csv()
 
     def save_to_csv(self):
@@ -69,6 +68,7 @@ class DataLogger:
                     # Extract values excluding the 'timestamp' key
                     values = [row[key] for key in self.headers]
                     # Write the row with the timestamp
+                    print([timestamp] + values)
                     writer.writerow([timestamp] + values)
                 else:
                     print(f"Warning: Unexpected data format for timestamp {timestamp}: {row}")

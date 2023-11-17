@@ -76,20 +76,37 @@ class DataLogger:
 
             with open(self.csv_file, 'w', newline='') as file:
                 writer = csv.writer(file)
-                
+
                 # Write header row
                 header_row = ['Timestamp'] + self.headers
                 writer.writerow(header_row)
-                
-            # Write data rows
-            for timestamp, row in self.data.items():
-                if isinstance(row, dict):
-                    # Extract values including a default value for missing keys
-                    values = [row.get(key, '') for key in self.headers]
-                    # Write the row with the timestamp
-                    writer.writerow([timestamp] + values)
-                else:
-                    print(f"Warning: Unexpected data format for timestamp {timestamp}: {row}")
+
+                # Write data rows
+                for timestamp, row in self.data.items():
+                    if isinstance(row, dict):
+                        # Extract values including a default value for missing keys
+                        values = [row.get(key, '') for key in self.headers]
+                        # Write the row with the timestamp
+                        writer.writerow([timestamp] + values)
+                    else:
+                        print(f"Warning: Unexpected data format for timestamp {timestamp}: {row}")
+
+                with open(self.csv_file, 'w', newline='') as file:
+                    writer = csv.writer(file)
+                    
+                    # Write header row
+                    header_row = ['Timestamp'] + self.headers
+                    writer.writerow(header_row)
+                    
+                # Write data rows
+                for timestamp, row in self.data.items():
+                    if isinstance(row, dict):
+                        # Extract values including a default value for missing keys
+                        values = [row.get(key, '') for key in self.headers]
+                        # Write the row with the timestamp
+                        writer.writerow([timestamp] + values)
+                    else:
+                        print(f"Warning: Unexpected data format for timestamp {timestamp}: {row}")
 
     def add_timestamp(self):
         current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')

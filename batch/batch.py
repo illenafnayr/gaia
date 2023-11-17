@@ -24,6 +24,19 @@ class BatchService:
             time.sleep(60 * interval_minutes)
 
     def log_data_round(self, i):
+        print("row #: {i}")
+        # Log light sensor data
+        self.light_data_logger.add_data()
+
+        # Log temperature sensor data
+        # self.temp_data_logger.add_data()
+
+        # Add timestamp to all data
+        self.light_data_logger.add_timestamp()
+
+        # Save to CSV
+        self.light_data_logger.save_to_csv()
+
         print("row #: {}", i)
         # Log light sensor data
         self.light_data_logger.add_data()

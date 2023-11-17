@@ -20,7 +20,7 @@ def get_sensor_reading(SensorDataLogger):
         sensor = SensorDataLogger()
         headers = sensor.getHeaders()
         print("headers: {}", headers)
-        logger = DataLogger(SensorDataLogger, csv_file_path='light-sensor-data.csv', header=headers)
+        logger = DataLogger(SensorDataLogger, csv_file='light-sensor-data.csv', header=headers)
         logger.add_data()
      
 if __name__ == "__main__":

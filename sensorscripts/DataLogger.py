@@ -61,6 +61,7 @@ class DataLogger:
 
             
     def add_timestamp(self):
-            current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-            for timestamp in self.data:
-                self.data[timestamp]['timestamp'] = current_time
+        current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        # Ensure that each value in self.data is a dictionary
+        self.data = {timestamp: {'timestamp': current_time, **data} for timestamp, data in self.data.items()}
+

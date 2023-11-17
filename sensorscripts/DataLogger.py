@@ -15,7 +15,7 @@ class DataLogger:
                 reader = csv.reader(file)
                 headers = next(reader, [])
         except FileNotFoundError:
-            headers = self.sensor_logger.headers
+            headers = self.sensor_logger.getHeaders()
         return headers
 
     def read_csv(self):
@@ -29,24 +29,25 @@ class DataLogger:
         except FileNotFoundError:
             pass
         return data
+
     def add_data(self):
         new_data = self.sensor_logger.writeRow()
-        
-        # If headers are not set, use generic names like 'Column1', 'Column2', etc.
+
+        # If headers are not set, use the headers from sensor_logger
         if not self.headers:
-            self.headers = [f'Column{i}' for i in range(1, len(new_data) + 1)]
-        
+            self.headers = self.sensor_logger.getHeaders()
+
         timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        
+
         # Convert new_data to a list of strings
         new_data_strings = [str(item) for item in new_data]
-        
+
         # Create a new row dictionary
         new_row = {'timestamp': timestamp, **dict(zip(self.headers, new_data_strings))}
-        
+
         # Append the new row to the data dictionary
         self.data[timestamp] = new_row
-        
+
         self.save_to_csv()
 
     def save_to_csv(self):
@@ -68,4 +69,3 @@ class DataLogger:
                 self.data[timestamp]['timestamp'] = current_time
             else:
                 print(f"Warning: Unexpected data format for timestamp {timestamp}: {self.data[timestamp]}")
-

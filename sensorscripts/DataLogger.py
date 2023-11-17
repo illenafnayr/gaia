@@ -48,7 +48,7 @@ class DataLogger:
         new_data_strings = [str(item) for item in new_data]
 
         # Create a new row dictionary
-        new_row = {'timestamp': timestamp, **dict(zip(self.headers, new_data_strings))}
+        new_row = { **dict(zip(self.headers, new_data_strings))}
 
         # Append the new row to the data dictionary
         self.data[timestamp] = new_row

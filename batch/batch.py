@@ -20,7 +20,7 @@ def run_batch_job(interval_seconds, enabled_flag):
 def get_sensor_readings(SensorDataLogger):
         sensor = SensorDataLogger()
         headers = sensor.getHeaders()
-        print("HEADERS: " + headers)
+        print("headers: {}", headers)
         logger = DataLogger(SensorDataLogger, csv_file_path='light-sensor-data.csv', header=headers)
         logger.log_sensor_data()
 

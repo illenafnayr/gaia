@@ -58,6 +58,7 @@ class DataLogger:
                 timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
                 row.insert(0, timestamp)  # Assuming you want to insert the timestamp at the beginning of the row
 
+                print("row: {}", row)
                 # Adding a header for the timestamp column if not already present
                 if not self.timestamp_logged:
                     header_row = ['Timestamp'] + sensor_instance.getHeaders()  # Assuming getHeader returns the existing header

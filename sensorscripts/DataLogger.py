@@ -58,7 +58,9 @@ class DataLogger:
             # Write data rows
             for timestamp, row in self.data.items():
                 if isinstance(row, dict):
-                    writer.writerow(row)
+                    # Exclude 'timestamp' key when writing the row
+                    row_without_timestamp = {key: value for key, value in row.items() if key != 'timestamp'}
+                    writer.writerow(row_without_timestamp)
                 else:
                     print(f"Warning: Unexpected data format for timestamp {timestamp}: {row}")
 

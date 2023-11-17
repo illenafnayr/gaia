@@ -30,11 +30,6 @@ class DataLogger:
                 if not self.are_headers_present():
                     csv_writer.writerow(self.header)
 
-                # Fill the first row with zeros
-                zero_row = [0] * len(self.header)
-                zero_row[0] = "Timestamp"
-                csv_writer.writerow(zero_row)
-
 
     def are_headers_present(self):
         # Check if the CSV file contains all the specified headers

@@ -34,12 +34,18 @@ class DataLogger:
         new_data = self.sensorLogger.writeRow()
         if not self.headers:
             self.headers = [str(item) for item in new_data]
-        for key in enumerate(self.headers):
+        for i, key in enumerate(self.headers):
             if key not in new_data:
                 for _, row in self.data.items():
                     row[key] = '0'
+        timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        
+        # Convert new_data to a list of strings
+        new_data_strings = [str(item) for item in new_data]
+        
+        new_data_with_timestamp = {'timestamp': timestamp, **dict(zip(self.headers, new_data_strings))}
+        self.data.update(new_data_with_timestamp)
         self.save_to_csv()
-
 
     def save_to_csv(self):
         with open(self.csv_file, 'w', newline='') as file:

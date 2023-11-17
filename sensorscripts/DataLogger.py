@@ -46,14 +46,26 @@ class DataLogger:
             with open(self.csv_file_path, mode='a', newline='') as csvfile:
                 csv_writer = csv.writer(csvfile)
                 sensor_instance = self.sensorLogger()
+
+                # Set headers based on the sensor instance
+                self.set_headers(csv_writer, sensor_instance)
+
                 row = sensor_instance.writeRow()
 
                 # Inserting the current timestamp into the row
                 timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
                 row.insert(0, timestamp)  # Assuming you want to insert the timestamp at the beginning of the row
 
-                print("row: {}", row)
-
                 csv_writer.writerow(row)
         except Exception as e:
             print("Error logging sensor data: {}".format(e))
+
+    def set_headers(self, csv_writer, sensor_instance):
+        # Set headers based on the sensor instance
+        if not self.timestamp_logged:
+            header_row = ['Timestamp'] + sensor_instance.getHeaders()  # Assuming getHeaders returns the existing header
+            csv_writer.writerow(header_row)
+            self.timestamp_logged = True
+        else:
+            # Print only the "Timestamp" header for subsequent log entries
+            csv_writer.writerow(['Timestamp'])

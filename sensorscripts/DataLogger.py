@@ -42,14 +42,18 @@ class DataLogger:
         self.data.update(new_data)
         self.save_to_csv()
 
-
     def save_to_csv(self):
         with open(self.csv_file, 'w', newline='') as file:
             writer = csv.DictWriter(file, fieldnames=self.headers)
             # Write header row
             writer.writeheader()
             # Write data rows
-            writer.writerows(self.data.values())
+            for timestamp, row in self.data.items():
+                if isinstance(row, dict):
+                    writer.writerow(row)
+                else:
+                    print(f"Warning: Unexpected data format for timestamp {timestamp}: {row}")
+
             
     def add_timestamp(self):
             current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')

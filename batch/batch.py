@@ -19,7 +19,7 @@ class BatchService:
         self.light_data_logger = DataLogger(self.light_sensor_logger, self.csv_file_path)
 
     def run(self, num_rounds=1000, interval_minutes=15):
-        for _ in range(num_rounds):
+        for i in range(num_rounds):
             self.log_data_round(i)
             time.sleep(60 * interval_minutes)
 

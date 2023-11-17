@@ -7,7 +7,6 @@ class DataLogger:
         self.sensorLogger = sensorLogger
         self.csv_file_path = csv_file_path
         self.header = header
-        self.timestamp_logged = False  # Initialize timestamp_logged attribute
 
         # Check if the CSV file exists
         file_exists = os.path.isfile(self.csv_file_path)
@@ -59,11 +58,6 @@ class DataLogger:
                 row.insert(0, timestamp)  # Assuming you want to insert the timestamp at the beginning of the row
 
                 print("row: {}", row)
-                # Adding a header for the timestamp column if not already present
-                if not self.timestamp_logged:
-                    header_row = ['Timestamp'] + sensor_instance.getHeaders()  # Assuming getHeader returns the existing header
-                    csv_writer.writerow(header_row)
-                    self.timestamp_logged = True
 
                 csv_writer.writerow(row)
         except Exception as e:

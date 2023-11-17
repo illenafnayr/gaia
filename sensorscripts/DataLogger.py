@@ -33,14 +33,13 @@ class DataLogger:
     def add_data(self):
         new_data = self.sensorLogger.writeRow()
         if not self.headers:
-            self.headers = list(new_data)
-        for key in new_data:
-            if key not in self.headers:
-                self.headers.append(key)
+            self.headers = [str(item) for item in new_data]
+        for key in enumerate(self.headers):
+            if key not in new_data:
                 for _, row in self.data.items():
                     row[key] = '0'
-        self.data.update(new_data)
         self.save_to_csv()
+
 
     def save_to_csv(self):
         with open(self.csv_file, 'w', newline='') as file:

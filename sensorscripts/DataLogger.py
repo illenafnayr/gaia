@@ -33,8 +33,8 @@ class DataLogger:
     def add_data(self):
         new_data = self.sensorLogger.writeRow()
         if not self.headers:
-            self.headers = list(new_data.keys())
-        for key in new_data.keys():
+            self.headers = list(new_data)
+        for key in new_data:
             if key not in self.headers:
                 self.headers.append(key)
                 for _, row in self.data.items():

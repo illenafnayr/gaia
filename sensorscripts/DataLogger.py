@@ -29,23 +29,26 @@ class DataLogger:
         except FileNotFoundError:
             pass
         return data
-
     def add_data(self):
         new_data = self.sensor_logger.writeRow()
+        
+        # If headers are not set, use generic names like 'Column1', 'Column2', etc.
         if not self.headers:
-            self.headers = [str(item) for item in new_data]
-        for i, key in enumerate(self.headers):
-            if key not in new_data:
-                for _, row in self.data.items():
-                    row[key] = '0'
+            self.headers = [f'Column{i}' for i in range(1, len(new_data) + 1)]
+        
         timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         
         # Convert new_data to a list of strings
         new_data_strings = [str(item) for item in new_data]
         
-        new_data_with_timestamp = {'timestamp': timestamp, **dict(zip(self.headers, new_data_strings))}
-        self.data.update(new_data_with_timestamp)
+        # Combine timestamp and new_data_strings into a list
+        row_data = [timestamp] + new_data_strings
+        
+        # Append the new row to the data list
+        self.data.append(row_data)
+        
         self.save_to_csv()
+
 
     def save_to_csv(self):
         with open(self.csv_file, 'w', newline='') as file:

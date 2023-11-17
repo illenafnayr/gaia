@@ -14,7 +14,7 @@ from sensorscripts.TSL2591X.TSLX2591XDataLogger import LightSensorDataLogger
 class BatchService:
     def __init__(self, csv_file_path):
         self.csv_file_path = csv_file_path
-        self.light_sensor_logger = LightSensorDataLogger
+        self.light_sensor_logger = LightSensorDataLogger()
         # self.temp_sensor_logger = TemperatureSensorDataLogger
         self.light_data_logger = DataLogger(self.light_sensor_logger, self.csv_file_path)
 

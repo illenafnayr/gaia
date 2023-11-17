@@ -1,18 +1,13 @@
 import csv
-import json
 from collections import OrderedDict
 from datetime import datetime
 
 class DataLogger:
-    def __init__(self, SensorLogger, csv_file):
-        self.sensorLogger = SensorLogger()
+    def __init__(self, sensor_logger, csv_file):
+        self.sensor_logger = sensor_logger
         self.csv_file = csv_file
         self.headers = self.get_headers()
-        self.data = {}  # Initialize as an empty dictionary
-        if not self.headers:
-            self.headers = []
-        else:
-            self.data = self.read_csv()
+        self.data = self.read_csv()
 
     def get_headers(self):
         try:
@@ -36,7 +31,7 @@ class DataLogger:
         return data
 
     def add_data(self):
-        new_data = self.sensorLogger.writeRow()
+        new_data = self.sensor_logger.writeRow()
         if not self.headers:
             self.headers = [str(item) for item in new_data]
         for i, key in enumerate(self.headers):
@@ -64,12 +59,7 @@ class DataLogger:
                 else:
                     print(f"Warning: Unexpected data format for timestamp {timestamp}: {row}")
 
-            
     def add_timestamp(self):
         current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        
-        # Ensure that each value in self.data is a dictionary
-        self.data = {
-            timestamp: {'timestamp': current_time, **json.loads(data)} if isinstance(data, str) else {'timestamp': current_time, **data}
-            for timestamp, data in self.data.items()
-        }
+        for timestamp in self.data:
+            self.data[timestamp]['timestamp'] = current_time

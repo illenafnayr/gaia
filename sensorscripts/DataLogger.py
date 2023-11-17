@@ -13,22 +13,30 @@ class DataLogger:
         file_exists = os.path.isfile(self.csv_file_path)
 
         # If the file doesn't exist, or if it exists but doesn't contain the specified headers,
-        # write the headers and fill the columns with zeros for the first row
+        # write the headers and update the existing rows with zeros until the current timestamp
         if not file_exists or not self.are_headers_present():
             self.initialize_csv_file()
 
     def initialize_csv_file(self):
-        with open(self.csv_file_path, mode='a', newline='') as csvfile:
-            csv_writer = csv.writer(csvfile)
+        with open(self.csv_file_path, mode='a+', newline='') as csvfile:
+            csv_reader = csv.reader(csvfile)
+            existing_headers = next(csv_reader, None)
 
             # Write the headers if they don't exist
-            if not self.are_headers_present():
+            if not existing_headers:
+                csv_writer = csv.writer(csvfile)
                 csv_writer.writerow(self.header)
 
-            # Fill the first row with zeros
+            # Update existing rows with zeros until the current timestamp
+            current_timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
             zero_row = [0] * len(self.header)
             zero_row[0] = "Timestamp"
-            csv_writer.writerow(zero_row)
+
+            for row in csv_reader:
+                csv_writer = csv.writer(csvfile)
+                csv_writer.writerow(zero_row)
+                if row[0] == current_timestamp:
+                    break
 
     def are_headers_present(self):
         # Check if the CSV file contains all the specified headers
@@ -38,7 +46,6 @@ class DataLogger:
 
             # Exclude the "Timestamp" column from the comparison
             return existing_headers is not None and all(header in existing_headers[1:] for header in self.header[1:])
-
 
     def log_sensor_data(self):
         try:

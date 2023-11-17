@@ -25,7 +25,7 @@ def get_sensor_readings(SensorDataLogger):
         logger.log_sensor_data()
 
 if __name__ == "__main__":
-    interval_seconds = 6  # Adjust this based on your desired interval
+    interval_seconds = 3  # Adjust this based on your desired interval
     job_enabled = True  # Set this flag to True to enable the job
 
     run_batch_job(interval_seconds, job_enabled)

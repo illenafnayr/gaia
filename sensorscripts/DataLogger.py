@@ -16,7 +16,12 @@ class DataLogger:
                 headers = next(reader, [])
         except FileNotFoundError:
             headers = self.sensor_logger.getHeaders()
+            # Create an empty CSV file with headers
+            with open(self.csv_file, 'w', newline='') as file:
+                writer = csv.writer(file)
+                writer.writerow(['Timestamp'] + headers)
         return headers
+
 
     def read_csv(self):
         data = OrderedDict()
@@ -34,9 +39,6 @@ class DataLogger:
         new_data = self.sensor_logger.writeRow()
 
         # If headers are not set, use the headers from sensor_logger
-        if not self.headers:
-            self.headers = self.sensor_logger.getHeaders()
-
         timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
         # Convert new_data to a list of strings

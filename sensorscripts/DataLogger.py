@@ -15,7 +15,7 @@ class DataLogger:
                 reader = csv.reader(file)
                 headers = next(reader, [])
         except FileNotFoundError:
-            headers = []
+            headers = self.sensor_logger.headers
         return headers
 
     def read_csv(self):

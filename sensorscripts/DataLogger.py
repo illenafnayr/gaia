@@ -75,7 +75,8 @@ from collections import OrderedDict
 from datetime import datetime
 
 class DataLogger:
-    def __init__(self, csv_file):
+    def __init__(self, SensorLogger, csv_file):
+        self.sensorLogger = SensorLogger()
         self.csv_file = csv_file
         self.headers = self.get_headers()
         self.data = self.read_csv()
@@ -101,7 +102,8 @@ class DataLogger:
             pass
         return data
 
-    def add_data(self, new_data):
+    def add_data(self):
+        new_data = self.sensorLogger.writeRow()
         timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         if not self.headers:
             self.headers = ['timestamp']

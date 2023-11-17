@@ -52,7 +52,7 @@ class DataLogger:
 
         # Append the new row to the data dictionary
         self.data[timestamp] = new_row
-
+        print(self.data)
         self.save_to_csv()
 
     def save_to_csv(self):

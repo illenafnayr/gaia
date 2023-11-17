@@ -36,6 +36,6 @@ class BatchService:
         self.light_data_logger.save_to_csv()
 
 if __name__ == "__main__":
-    csv_file_path = 'your_data.csv'
+    csv_file_path = 'light-sensor-data.csv'
     batch_service = BatchService(csv_file_path)
     batch_service.run()

@@ -41,14 +41,13 @@ class DataLogger:
         # Convert new_data to a list of strings
         new_data_strings = [str(item) for item in new_data]
         
-        # Combine timestamp and new_data_strings into a list
-        row_data = [timestamp] + new_data_strings
+        # Create a new row dictionary
+        new_row = {'timestamp': timestamp, **dict(zip(self.headers, new_data_strings))}
         
-        # Append the new row to the data list
-        self.data.append(row_data)
+        # Append the new row to the data dictionary
+        self.data[timestamp] = new_row
         
         self.save_to_csv()
-
 
     def save_to_csv(self):
         with open(self.csv_file, 'w', newline='') as file:

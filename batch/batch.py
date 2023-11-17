@@ -37,17 +37,6 @@ class BatchService:
         # Save to CSV
         self.light_data_logger.save_to_csv()
 
-        print("row #: {}", i)
-        # Log light sensor data
-        self.light_data_logger.add_data()
-
-        # Log temperature sensor data
-        # self.temp_data_logger.add_data()
-
-        # Add timestamp and save to CSV
-        self.light_data_logger.add_timestamp()
-        self.light_data_logger.save_to_csv()
-
 if __name__ == "__main__":
     csv_file_path = 'light-sensor-data.csv'
     batch_service = BatchService(csv_file_path)

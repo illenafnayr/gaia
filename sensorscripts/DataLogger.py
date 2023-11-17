@@ -62,4 +62,8 @@ class DataLogger:
     def add_timestamp(self):
         current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         for timestamp in self.data:
-            self.data[timestamp]['timestamp'] = current_time
+            if isinstance(self.data[timestamp], dict):
+                self.data[timestamp]['timestamp'] = current_time
+            else:
+                print(f"Warning: Unexpected data format for timestamp {timestamp}: {self.data[timestamp]}")
+

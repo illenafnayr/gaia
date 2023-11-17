@@ -22,15 +22,17 @@ class DataLogger:
                 writer.writerow(['Timestamp'] + headers)
         return headers
 
-
     def read_csv(self):
         data = OrderedDict()
         try:
             with open(self.csv_file, 'r') as file:
                 reader = csv.DictReader(file)
                 for row in reader:
-                    timestamp = row['timestamp']
-                    data[timestamp] = row
+                    if 'timestamp' in row:
+                        timestamp = row['timestamp']
+                        data[timestamp] = row
+                    else:
+                        logging.warning(f"Skipping row without timestamp: {row}")
         except FileNotFoundError:
             pass
         return data

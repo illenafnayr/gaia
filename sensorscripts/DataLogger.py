@@ -52,15 +52,19 @@ class DataLogger:
 
     def save_to_csv(self):
         with open(self.csv_file, 'w', newline='') as file:
-            writer = csv.DictWriter(file, fieldnames=self.headers)
+            writer = csv.writer(file)
+            
             # Write header row
-            writer.writeheader()
+            header_row = ['Timestamp'] + self.headers
+            writer.writerow(header_row)
+            
             # Write data rows
             for timestamp, row in self.data.items():
                 if isinstance(row, dict):
-                    # Exclude 'timestamp' key when writing the row
-                    row_without_timestamp = {key: value for key, value in row.items() if key != 'timestamp'}
-                    writer.writerow(row_without_timestamp)
+                    # Extract values excluding the 'timestamp' key
+                    values = [row[key] for key in self.headers]
+                    # Write the row with the timestamp
+                    writer.writerow([timestamp] + values)
                 else:
                     print(f"Warning: Unexpected data format for timestamp {timestamp}: {row}")
 

@@ -49,7 +49,7 @@ class DataLogger:
 
         # Create a new row dictionary
         new_row = {'timestamp': timestamp, **dict(zip(self.headers, new_data_strings))}
-
+        print(new_row)
         # Append the new row to the data dictionary
         self.data[timestamp] = new_row
 
@@ -69,7 +69,6 @@ class DataLogger:
                     # Extract values excluding the 'timestamp' key
                     values = [row[key] for key in self.headers]
                     # Write the row with the timestamp
-                    print([timestamp] + values)
                     writer.writerow([timestamp] + values)
                 else:
                     print(f"Warning: Unexpected data format for timestamp {timestamp}: {row}")

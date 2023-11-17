@@ -114,6 +114,7 @@ class DataLogger:
                 for timestamp, row in self.data.items():
                     row[key] = '0'
         self.data[timestamp] = new_data
+        logger.save_to_csv()
 
     def save_to_csv(self):
         with open(self.csv_file, 'w', newline='') as file:
@@ -126,11 +127,3 @@ class DataLogger:
 # Example usage:
 csv_file_path = 'your_data.csv'
 logger = DataLogger(csv_file_path)
-
-new_data1 = {'timestamp': '2023-11-16 12:00:00', 'header1': 'value1', 'header2': 'value2'}
-new_data2 = {'timestamp': '2023-11-16 13:00:00', 'header2': 'value3', 'header3': 'value4'}
-
-logger.add_data(new_data1)
-logger.add_data(new_data2)
-
-logger.save_to_csv()

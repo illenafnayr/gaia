@@ -26,12 +26,15 @@ class DataLogger:
             data = OrderedDict()
             try:
                 with open(self.csv_file, 'r') as file:
-                    reader = csv.DictReader(file)
+                    reader = csv.reader(file)
+                    headers = next(reader, [])  # Read the header row
+                    if 'timestamp' not in headers:
+                        logging.warning("No 'timestamp' column in the CSV file.")
+                        return data
+
                     for row in reader:
-                        if 'timestamp' in row:
-                            data[row['timestamp']] = row
-                        else:
-                            logging.warning(f"Skipping row without timestamp: {row}")
+                        timestamp = row[headers.index('timestamp')]
+                        data[timestamp] = dict(zip(headers, row))
             except FileNotFoundError:
                 pass
             return data

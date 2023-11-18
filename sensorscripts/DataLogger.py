@@ -23,15 +23,18 @@ class DataLogger:
         return headers
 
     def read_csv(self):
-        data = OrderedDict()
-        try:
-            with open(self.csv_file, 'r') as file:
-                reader = csv.DictReader(file)
-                for row in reader:
-                    data[row['timestamp']] = row
-        except FileNotFoundError:
-            pass
-        return data
+            data = OrderedDict()
+            try:
+                with open(self.csv_file, 'r') as file:
+                    reader = csv.DictReader(file)
+                    for row in reader:
+                        if 'timestamp' in row:
+                            data[row['timestamp']] = row
+                        else:
+                            logging.warning(f"Skipping row without timestamp: {row}")
+            except FileNotFoundError:
+                pass
+            return data
 
     def add_data(self):
         new_data = self.sensor_logger.writeRow()

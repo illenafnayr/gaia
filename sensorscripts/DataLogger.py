@@ -42,12 +42,12 @@ class DataLogger:
 
     def add_data(self):
         new_sensor_readings = self.sensor_logger.writeRow()
-        timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')# Add logic to get the timestamp, e.g., datetime.datetime.now()
+        timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S') # Add logic to get the timestamp, e.g., datetime.datetime.now()
         # Create a new row dictionary
         new_row = [timestamp, *new_sensor_readings]
 
         # Append the new row to the data dictionary
-        self.data[len(self.data) + 1] = new_row  # Using a numeric key instead of timestamp
+        self.data[timestamp] = OrderedDict(zip(self.headers, new_row))
 
         # Save to CSV without using with block
         self.save_to_csv()
@@ -55,15 +55,6 @@ class DataLogger:
     def save_to_csv(self):
         with open(self.csv_file, 'a', newline='') as file:
             writer = csv.writer(file)
-
-            # Check if the file is empty
-            file.seek(0, 2)  # Go to the end of the file
-            is_empty = file.tell() == 0
-
-            # Write header row only if the file is empty
-            if is_empty:
-                header_row = self.headers
-                writer.writerow(header_row)
 
             # Write data rows
             for _, row in self.data.items():
@@ -79,10 +70,9 @@ class DataLogger:
                 else:
                     print(f"Warning: Unexpected data format for key {key}: {row}")
 
-
     def add_timestamp(self, timestamp):
-            for key, row in self.data.items():
-                if isinstance(row, dict):
-                    row['timestamp'] = timestamp
-                else:
-                    print(f"Warning: Unexpected data format for key {key}: {row}")
+        for key, row in self.data.items():
+            if isinstance(row, dict):
+                row['timestamp'] = timestamp
+            else:
+                print(f"Warning: Unexpected data format for key {key}: {row}")

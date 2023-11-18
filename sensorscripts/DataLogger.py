@@ -45,33 +45,13 @@ class DataLogger:
         timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S') # Add logic to get the timestamp, e.g., datetime.datetime.now()
         # Create a new row dictionary
         new_row = [timestamp, *new_sensor_readings]
-
-        # Append the new row to the data dictionary
-        # Update the existing data with new readings
-        existing_data = self.data.get(timestamp, OrderedDict(zip(self.headers, [])))
-        existing_data.update(zip(self.headers, new_row[1:]))  # Update without modifying the timestamp
-        self.data[timestamp] = existing_data
-
         # Save to CSV without using with block
-        self.save_to_csv()
+        self.save_to_csv(new_row)
 
-    def save_to_csv(self):
+    def save_to_csv(self, new_row):
         with open(self.csv_file, 'a', newline='') as file:
             writer = csv.writer(file)
-
-            # Write data rows
-            for _, row in self.data.items():
-                # Write the row directly if it's a list
-                if isinstance(row, list):
-                    writer.writerow(row)
-                elif isinstance(row, dict):
-                    # Extract values including a default value for missing keys
-                    values = [row.get(key, '') for key in self.headers]
-                    # Write the row
-                    writer.writerow(values)
-                    print(values)
-                else:
-                    print(f"Warning: Unexpected data format for key {key}: {row}")
+            writer.writerow(new_row)
 
     def add_timestamp(self, timestamp):
         for key, row in self.data.items():

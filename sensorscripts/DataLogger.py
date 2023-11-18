@@ -78,7 +78,7 @@ class DataLogger:
                 writer = csv.writer(file)
 
                 # Write header row
-                header_row = ['Timestamp'] + self.headers
+                header_row = self.headers
                 writer.writerow(header_row)
 
 

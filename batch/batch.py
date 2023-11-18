@@ -37,7 +37,6 @@ class BatchService:
         # self.light_data_logger.add_timestamp(timestamp)
 
         # Save to CSV
-        self.light_data_logger.save_to_csv()
 
 if __name__ == "__main__":
     csv_file_path = 'light-sensor-data.csv'

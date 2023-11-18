@@ -1,4 +1,5 @@
 # batch.py
+import datetime
 import time
 import sys
 import os
@@ -32,7 +33,8 @@ class BatchService:
         # self.temp_data_logger.add_data()
 
         # Add timestamp to all data
-        self.light_data_logger.add_timestamp()
+        timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        self.light_data_logger.add_timestamp(timestamp)
 
         # Save to CSV
         self.light_data_logger.save_to_csv()

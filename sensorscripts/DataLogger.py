@@ -20,7 +20,7 @@ class DataLogger:
             # Create an empty CSV file with headers
             with open(self.csv_file, 'w', newline='') as file:
                 writer = csv.writer(file)
-                writer.writerow([*headers])
+                writer.writerow(['timestamp', *headers])
         return headers
     
     def read_csv(self):

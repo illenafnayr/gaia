@@ -64,3 +64,10 @@ class DataLogger:
                 values = [row.get(key, '') for key in self.headers]
                 # Write the row
                 writer.writerow(values)
+
+    def add_timestamp(self, timestamp):
+            for key, row in self.data.items():
+                if isinstance(row, dict):
+                    row['timestamp'] = timestamp
+                else:
+                    print(f"Warning: Unexpected data format for key {key}: {row}")

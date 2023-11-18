@@ -21,23 +21,23 @@ class DataLogger:
                 writer = csv.writer(file)
                 writer.writerow(headers)
         return headers
-
+    
     def read_csv(self):
-            data = OrderedDict()
-            try:
-                with open(self.csv_file, 'r') as file:
-                    reader = csv.reader(file)
-                    headers = next(reader, [])  # Read the header row
-                    if 'timestamp' not in headers:
-                        logging.warning("No 'timestamp' column in the CSV file.")
-                        return data
+        data = OrderedDict()
+        try:
+            with open(self.csv_file, 'r') as file:
+                reader = csv.reader(file)
+                headers = next(reader, [])  # Read the header row
+                if 'timestamp' not in headers:
+                    logging.warning("No 'timestamp' column in the CSV file.")
+                    return data
 
-                    for row in reader:
-                        timestamp = row[headers.index('timestamp')]
-                        data[timestamp] = dict(zip(headers, row))
-            except FileNotFoundError:
-                pass
-            return data
+                for row in reader:
+                    timestamp = row[headers.index('timestamp')]
+                    data[timestamp] = OrderedDict(zip(headers, row))
+        except FileNotFoundError:
+            pass
+        return data
 
     def add_data(self):
         new_data = self.sensor_logger.writeRow()

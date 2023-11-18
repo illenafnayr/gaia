@@ -47,7 +47,10 @@ class DataLogger:
         new_row = [timestamp, *new_sensor_readings]
 
         # Append the new row to the data dictionary
-        self.data[timestamp] = OrderedDict(zip(self.headers, new_row))
+        # Update the existing data with new readings
+        existing_data = self.data.get(timestamp, OrderedDict(zip(self.headers, [])))
+        existing_data.update(zip(self.headers, new_row[1:]))  # Update without modifying the timestamp
+        self.data[timestamp] = existing_data
 
         # Save to CSV without using with block
         self.save_to_csv()

@@ -79,26 +79,6 @@ class DataLogger:
                 else:
                     print(f"Warning: Unexpected data format for key {key}: {row}")
 
-        with open(self.csv_file, 'a', newline='') as file:
-            writer = csv.writer(file)
-
-            # Write header row
-            header_row = self.headers
-            writer.writerow(header_row)
-
-            # Write data rows
-            for _, row in self.data.items():
-                # Write the row directly if it's a list
-                if isinstance(row, list):
-                    writer.writerow(row)
-                elif isinstance(row, dict):
-                    # Extract values including a default value for missing keys
-                    values = [row.get(key, '') for key in self.headers]
-                    # Write the row
-                    writer.writerow(values)
-                    print(values)
-                else:
-                    print(f"Warning: Unexpected data format for key {key}: {row}")
 
     def add_timestamp(self, timestamp):
             for key, row in self.data.items():

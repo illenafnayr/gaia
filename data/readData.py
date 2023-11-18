@@ -22,7 +22,7 @@ aws_access_key_id = secret_key_id
 aws_secret_access_key = secret_key
 aws_region = 'us-east-1'
 s3_bucket_name = 'gaia-sensor-data'
-s3_object_key = 'gaia-sensor-data-updated.csv'
+s3_object_key = 'light-sensor-data.csv'
 
 merged_df = read_merged_csv_from_s3(aws_access_key_id, aws_secret_access_key, aws_region, s3_bucket_name, s3_object_key)
 

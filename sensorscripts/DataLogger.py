@@ -53,7 +53,7 @@ class DataLogger:
         self.save_to_csv()
 
     def save_to_csv(self):
-        with open(self.csv_file, 'w', newline='') as file:
+        with open(self.csv_file, 'a', newline='') as file:
             writer = csv.writer(file)
 
             # Write header row

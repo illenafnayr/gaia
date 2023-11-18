@@ -42,8 +42,7 @@ class DataLogger:
 
     def add_data(self):
         new_sensor_readings = self.sensor_logger.writeRow()
-        timestamp = datetime.now()# Add logic to get the timestamp, e.g., datetime.datetime.now()
-
+        timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')# Add logic to get the timestamp, e.g., datetime.datetime.now()
         # Create a new row dictionary
         new_row = [timestamp, *new_sensor_readings]
 

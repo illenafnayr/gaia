@@ -1,5 +1,6 @@
 import csv
 from collections import OrderedDict
+from datetime import datetime
 import logging
 
 class DataLogger:
@@ -19,7 +20,7 @@ class DataLogger:
             # Create an empty CSV file with headers
             with open(self.csv_file, 'w', newline='') as file:
                 writer = csv.writer(file)
-                writer.writerow(headers)
+                writer.writerow([timestamp, *headers])
         return headers
     
     def read_csv(self):
@@ -40,15 +41,11 @@ class DataLogger:
         return data
 
     def add_data(self):
-        new_data = self.sensor_logger.writeRow()
-
-        # If headers are not set, use the headers from sensor_logger
-        # Convert new_data to a list of strings
-        new_data_strings = [str(item) for item in new_data]
+        new_sensor_readings = self.sensor_logger.writeRow()
+        timestamp = datetime.now()# Add logic to get the timestamp, e.g., datetime.datetime.now()
 
         # Create a new row dictionary
-        new_row = dict(zip(self.headers, new_data_strings))
-        print(new_row)
+        new_row = [timestamp, *new_sensor_readings]
 
         # Append the new row to the data dictionary
         self.data[len(self.data) + 1] = new_row  # Using a numeric key instead of timestamp

@@ -70,6 +70,7 @@ class DataLogger:
                     values = [row.get(key, '') for key in self.headers]
                     # Write the row
                     writer.writerow(values)
+                    print(values)
                 else:
                     print(f"Warning: Unexpected data format for key {key}: {row}")
 
